@@ -1,6 +1,7 @@
-package tn.finix.finixbackend.modules.insurance.model;
+package tn.finix.finixbackend.modules.claims.model;
 
 import lombok.*;
+import tn.finix.finixbackend.modules.insurance.model.InsurancePolicy;
 import java.time.LocalDateTime;
 
 @Getter

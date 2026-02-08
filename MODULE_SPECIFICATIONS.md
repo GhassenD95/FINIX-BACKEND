@@ -58,11 +58,11 @@ Ce document récapitule les entités implémentées dans le backend, leurs champ
 
 ---
 
-## 💥 **MODULE 7: SINISTRES (CLAIMS)**
+## 💥 **ÉTUDIANT 4: MODULES SINISTRES & PRIMES**
 
-**Objectif:** Gérer les déclarations d'accidents ou de sinistres et leur indemnisation.
+**Objectif:** Gérer les déclarations de sinistres et l'encaissement des primes d'assurance.
 
-### **1. Claim**
+### **1. Claim** (Sinistres)
 | Champ | Type | Description | Usage UI |
 |-------|------|-------------|----------|
 | `claimNumber` | String | Référence du sinistre | Suivi dossier |
@@ -79,17 +79,7 @@ Ce document récapitule les entités implémentées dans le backend, leurs champ
 | `estimatedRepairCost`| Double | Coût estimé | Calcul indemnisation |
 | `isCovered` | Boolean| Éligibilité assurance | Décision finale |
 
-**Fonctionnalités Clés:** Déclaration en ligne, Upload de photos, Évaluation experte, Détection de fraude.
-- **Front Office:** Formulaire de déclaration, Suivi timeline.
-- **Back Office:** Gestion des sinistres par l'expert, Tableau de bord Fraude.
-
----
-
-## 💰 **MODULE 8: PRIMES (PREMIUMS)**
-
-**Objectif:** Gérer l'encaissement des primes d'assurance et les commissions partenaires.
-
-### **1. PremiumSchedule**
+### **3. PremiumSchedule** (Primes)
 | Champ | Type | Description | Usage UI |
 |-------|------|-------------|----------|
 | `installmentNumber` | Integer| Numéro d'échéance | Calendrier paiements |
@@ -97,13 +87,13 @@ Ce document récapitule les entités implémentées dans le backend, leurs champ
 | `amount` | Double | Montant de la prime | Dashboard financier |
 | `status` | Enum | PENDING, PAID, OVERDUE | Statut couverture |
 
-### **2. PartnerCommission**
+### **4. PartnerCommission** (Commissions)
 | Champ | Type | Description | Usage UI |
 |-------|------|-------------|----------|
 | `period` | String | Mois/Année (ex: 2026-02) | Reporting partenaire |
 | `commissionAmount` | Double | Montant dû au partenaire | Dashboard Partenaire |
 | `status` | Enum | CALCULATED, PAID | Suivi règlements |
 
-**Fonctionnalités Clés:** Génération d'échéanciers, Paiements multi-méthodes, Calcul automatique des commissions.
-- **Front Office:** Page "Mes Primes", Paiement via D17/Carte.
-- **Back Office:** Reporting financier, Export des commissions pour les assureurs.
+**Fonctionnalités Clés:** Déclaration de sinistre, Évaluation experte, Encaissement multi-méthodes, Calcul de commissions.
+- **Front Office:** Déclaration de sinistre, Paiement de primes.
+- **Back Office:** Évaluation par l'expert, Suivi des commissions partenaires.
