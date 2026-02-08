@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-
+    //comment
     private long id;
     private String name;
     private String lastName;
