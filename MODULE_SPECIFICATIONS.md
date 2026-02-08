@@ -1,99 +1,70 @@
 # 📄 **FIN'IX - SPÉCIFICATIONS DES MODULES & ENTITÉS**
 
-Ce document récapitule les entités implémentées dans le backend, leurs champs, et leur rôle dans les interfaces Front Office (Client/Partenaire) et Back Office (IMF).
+Ce document récapitule les entités implémentées dans le backend, structurées par **Grands Modules** et **Sous-Modules**, avec leurs rôles respectifs dans le Front Office (Client/Partenaire) et Back Office (IMF).
 
 ---
 
-## 👤 **MODULE 0: USER (UTILISATEUR & AUTH)**
+## 👤 **GRANDS MODULES 0: USER (UTILISATEUR & CONFIANCE)**
 
-**Objectif:** Gérer l'identité, les rôles et la confiance des utilisateurs.
+**Objectif:** Gérer l'identité numérique, la sécurité et le score de confiance.
 
-### **1. User**
-| Champ | Type | Description | Usage UI |
-|-------|------|-------------|----------|
-| `id` | long | Identifiant unique | Interne |
-| `name` | String | Prénom | Profil, Dashboards |
-| `lastName` | String | Nom de famille | Profil, Dashboards |
-| `email` | String | Email (Login) | Connexion, Notifications |
-| `password` | String | Mot de passe (Haché) | Connexion |
-| `telephone` | String | Numéro de téléphone | Validation SMS, Contact |
-| `address` | String | Adresse physique | KYC, Contrats |
-| `role` | RoleType | Rôle (CLIENT, AGENT, etc.) | RBAC (Contrôle d'accès) |
-| `status` | StatusType | Statut (ACTIVE, SUSPENDED) | Gestion administrative |
-| `profileCompletion`| Integer| % de complétion profil | Dashboard Client |
-| `trustHistory` | TrustHistory| Historique du trust score | Graphiques évolution |
+### **Sous-Module 0.1: Identity & Profiles**
+| Entité | Champs Clés | Rôle & Usage UI |
+|--------|-------------|-----------------|
+| **User** | `name`, `email`, `role`, `status` | Profil utilisateur, Gestion des accès (BackOffice). |
+| **UserDocument** | `documentType`, `fileUrl`, `verified` | KYC (Know Your Customer) - Upload documents. |
+| **RoleType** | `CUSTOMER`, `AGENT`, `AGENT_CR`, etc. | RBAC - Détermine les menus et actions accessibles. |
 
-**Fonctionnalités Clés:** Inscription multi-étapes, Connexion JWT, Gestion de profil.
-- **Front Office:** Page Profil, Indicateur de Trust Score.
-- **Back Office:** Liste des utilisateurs, Activation/Suspension de comptes.
+### **Sous-Module 0.2: Trust & Security**
+| Entité | Champs Clés | Rôle & Usage UI |
+|--------|-------------|-----------------|
+| **TrustHistory** | `score`, `reason`, `date` | Suivi de l'évolution du Trust Score (Graphiques Client). |
+| **StatusType** | `ACTIVE`, `PENDING`, `SUSPENDED` | Cycle de vie du compte utilisateur. |
 
 ---
 
-## 🏦 **MODULE 1 & 2: CRÉDIT (DEMANDE & CONTRAT)**
+## 🏦 **GRAND MODULE 1: CREDIT (DEMANDE & CONTRAT)**
 
-**Objectif:** Gérer le cycle de vie d'un crédit, de la demande au décaissement.
+**Objectif:** Digitaliser tout le processus d'acquisition de crédit.
 
-### **1. CreditRequest** (Demande de Crédit)
-| Champ | Type | Description | Usage UI |
-|-------|------|-------------|----------|
-| `user` | User | Demandeur | Profil demandeur |
-| `vehicleId` | Long | Véhicule sélectionné | Détails financement |
-| `requestedAmount` | Double | Montant du prêt | Calculateur mensualités |
-| `durationMonths` | Integer| Durée en mois | Calculateur mensualités |
-| `status` | Enum | DRAFT, SUBMITTED, etc. | Suivi statut (Timeline) |
-| `riskScore` | RiskScore | Score calculé | Évaluation (BackOffice) |
+### **Sous-Module 1.1: Request & Risk (Demande & Évaluation)**
+| Entité | Champs Clés | Rôle & Usage UI |
+|--------|-------------|-----------------|
+| **CreditRequest** | `requestedAmount`, `duration`, `status` | Formulaire de demande (Front), Liste des dossiers (Back). |
+| **RiskScore** | `totalScore`, `riskLevel` | Indicateur de risque pour décision IMF (BackOffice). |
+| **CreditDocument** | `documentType`, `fileUrl` | Justificatifs de revenus, relevés bancaires (KYC Crédit). |
+| **CreditHistory** | `totalRequests`, `totalApproved` | Historique pour scoring automatique. |
 
-### **2. CreditContract** (Contrat de Crédit)
-| Champ | Type | Description | Usage UI |
-|-------|------|-------------|----------|
-| `contractNumber` | String | Identifiant unique contrat | Référence documents |
-| `amount` | Double | Montant prêté final | Plan de remboursement |
-| `interestRate` | Double | Taux appliqué | Simulation, Contrat |
-| `status` | Enum | SIGNED, ACTIVE, etc. | Statut du prêt |
-| `contractPdfUrl` | String | Lien vers le PDF | Visualisation/Téléchargement |
-
-**Fonctionnalités Clés:** Soumission de demande, Scoring automatique, Génération de contrat PDF, Signature électronique.
-- **Front Office:** Formulaire de demande, Signature du contrat.
-- **Back Office:** Dashboard d'évaluation, Workflow de décaissement.
+### **Sous-Module 1.2: Contract & Disbursement (Contrat & Décaissement)**
+| Entité | Champs Clés | Rôle & Usage UI |
+|--------|-------------|-----------------|
+| **CreditContract** | `contractNumber`, `amount`, `pdfUrl` | Visualisation contrat, Signature électronique (Front). |
+| **ContractVersion** | `versionNumber`, `changeDescription` | Historique des modifications du contrat. |
+| **Disbursement** | `amount`, `status`, `recipient` | Workflow de paiement au vendeur (BackOffice). |
 
 ---
 
-## 💥 **ÉTUDIANT 4: MODULES SINISTRES & PRIMES**
+## �️ **GRAND MODULE 2: CLAIMS & PREMIUNS (SINISTRES & PRIMES)**
 
-**Objectif:** Gérer les déclarations de sinistres et l'encaissement des primes d'assurance.
+**Objectif:** Gérer la protection du véhicule (Sinistres) et le recouvrement des primes.
 
-### **1. Claim** (Sinistres)
-| Champ | Type | Description | Usage UI |
-|-------|------|-------------|----------|
-| `claimNumber` | String | Référence du sinistre | Suivi dossier |
-| `description` | String | Circonstances | Formulaire déclaration |
-| `incidentDate` | DateTime | Date du sinistre | Chronologie |
-| `status` | Enum | SUBMITTED, APPROVED, etc. | Suivi en temps réel |
-| `claimType` | Enum | ACCIDENT, THEFT, etc. | Filtres catalogue |
-| `fraudScore` | Integer| Score de suspicion | Alerte BackOffice |
+### **Sous-Module 2.1: Sinistres (Claims Management)**
+| Entité | Champs Clés | Rôle & Usage UI |
+|--------|-------------|-----------------|
+| **Claim** | `claimNumber`, `incidentDate`, `status` | Déclaration de sinistre (Front), Suivi dossier. |
+| **ClaimAssessment** | `expertNotes`, `repairCost`, `isCovered` | Expertise terrain et décision d'indemnisation (Back). |
+| **ClaimDocument** | `documentType`, `fileUrl` | Photos du sinistre, Constat amiable, Rapport de police. |
 
-### **2. ClaimAssessment** (Évaluation)
-| Champ | Type | Description | Usage UI |
-|-------|------|-------------|----------|
-| `expertNotes` | String | Observations de l'expert | Rapport d'expertise |
-| `estimatedRepairCost`| Double | Coût estimé | Calcul indemnisation |
-| `isCovered` | Boolean| Éligibilité assurance | Décision finale |
+### **Sous-Module 2.2: Primes (Insurance & Payments)**
+| Entité | Champs Clés | Rôle & Usage UI |
+|--------|-------------|-----------------|
+| **InsurancePolicy** | `policyNumber`, `startDate`, `status` | Détails de la couverture active (Dashboard Front). |
+| **PremiumSchedule** | `dueDate`, `amount`, `status` | Calendrier des paiements (Front), Alertes retards. |
+| **PremiumPayment** | `paymentDate`, `method`, `reference` | Historique des paiements de primes effectués. |
+| **PartnerCommission**| `period`, `commissionAmount`, `status` | Reporting financier pour l'assureur partenaire. |
 
-### **3. PremiumSchedule** (Primes)
-| Champ | Type | Description | Usage UI |
-|-------|------|-------------|----------|
-| `installmentNumber` | Integer| Numéro d'échéance | Calendrier paiements |
-| `dueDate` | DateTime | Date limite de paiement | Alertes / Rappels |
-| `amount` | Double | Montant de la prime | Dashboard financier |
-| `status` | Enum | PENDING, PAID, OVERDUE | Statut couverture |
+---
 
-### **4. PartnerCommission** (Commissions)
-| Champ | Type | Description | Usage UI |
-|-------|------|-------------|----------|
-| `period` | String | Mois/Année (ex: 2026-02) | Reporting partenaire |
-| `commissionAmount` | Double | Montant dû au partenaire | Dashboard Partenaire |
-| `status` | Enum | CALCULATED, PAID | Suivi règlements |
-
-**Fonctionnalités Clés:** Déclaration de sinistre, Évaluation experte, Encaissement multi-méthodes, Calcul de commissions.
-- **Front Office:** Déclaration de sinistre, Paiement de primes.
-- **Back Office:** Évaluation par l'expert, Suivi des commissions partenaires.
+## 🚗 **NEXT MODULES (PLANNED)**
+- **Vehicle Module:** Catalogue, Inspection, Vente.
+- **Analytics Module:** Reporting executive, ML Predictions.
