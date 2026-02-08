@@ -3,6 +3,7 @@ package tn.finix.finixbackend.modules.user.model;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,5 +25,6 @@ public class User {
     private LocalDateTime updatedAt;
     private Integer profileCompletion = 0; //0..100
 
-
+    private Set<UserDocument> documents;
+    private TrustHistory  trustHistory;
 }
