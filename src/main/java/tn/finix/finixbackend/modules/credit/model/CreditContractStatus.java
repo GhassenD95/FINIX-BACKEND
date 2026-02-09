@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package tn.finix.finixbackend.modules.credit.model;
 
 public enum CreditContractStatus {
@@ -8,14 +7,3 @@ public enum CreditContractStatus {
     ACTIVE,
     TERMINATED
 }
-=======
-package tn.finix.finixbackend.modules.credit.model;
-
-public enum CreditContractStatus {
-    DRAFT,
-    PENDING_SIGNATURE,
-    SIGNED,
-    ACTIVE,
-    TERMINATED
-}
->>>>>>> origin/feature/vehicle-seller-modules
