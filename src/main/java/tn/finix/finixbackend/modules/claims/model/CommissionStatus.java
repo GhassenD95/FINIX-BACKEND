@@ -1,4 +1,4 @@
-package tn.finix.finixbackend.modules.insurance.model;
+package tn.finix.finixbackend.modules.claims.model;
 
 public enum CommissionStatus {
     CALCULATED,
