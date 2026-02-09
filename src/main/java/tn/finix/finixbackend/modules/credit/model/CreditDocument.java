@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package tn.finix.finixbackend.modules.credit.model;
 
 import lombok.*;
@@ -22,3 +23,29 @@ public class CreditDocument {
     private LocalDateTime uploadedAt;
     private String verificationComment;
 }
+=======
+package tn.finix.finixbackend.modules.credit.model;
+
+import lombok.*;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class CreditDocument {
+
+    private Long id;
+
+    private CreditRequest creditRequest;
+
+    private CreditDocumentType type;
+    private String fileUrl;
+    private boolean verified;
+
+    private LocalDateTime uploadedAt;
+    private String verificationComment;
+}
+>>>>>>> origin/feature/vehicle-seller-modules

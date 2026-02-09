@@ -1,3 +1,4 @@
+
 package tn.finix.finixbackend.modules.credit.model;
 
 import lombok.*;
