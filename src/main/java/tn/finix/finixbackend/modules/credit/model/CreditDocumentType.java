@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package tn.finix.finixbackend.modules.credit.model;
 
 public enum CreditDocumentType {
@@ -5,3 +6,12 @@ public enum CreditDocumentType {
     BANK_STATEMENT,
     EMPLOYMENT_CERTIFICATE
 }
+=======
+package tn.finix.finixbackend.modules.credit.model;
+
+public enum CreditDocumentType {
+    INCOME_PROOF,
+    BANK_STATEMENT,
+    EMPLOYMENT_CERTIFICATE
+}
+>>>>>>> origin/feature/vehicle-seller-modules
